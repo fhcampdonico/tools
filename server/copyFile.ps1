@@ -1,6 +1,6 @@
 <######################################
 
-Simple script to  copy a single file from one server to another by creating a valid PS Session.
+Simple script to copy a single file from one server to another by creating a valid PS Session.
 
 Example: 
 
