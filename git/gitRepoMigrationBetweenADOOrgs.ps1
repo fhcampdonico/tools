@@ -35,33 +35,39 @@ Steps:
 4. Enter the correct $sourceRepo, $destinationRepo, and "newmsg" value containing the URL.
   Note, if your clone URL's have a space, you you will need to add "%20" to ensure space is accounted for
 5. Run the script
+
 #######################################>
 
-$sourceRepo = "https://azuredevopsSource/<teamProjectName>/_git/sourceCloneURL" #source repo clone UR
-$destinationRepo = "https://azuredevopsTarget/teamProjectName/_git/targetCloneURL" #target repo clone URL
+# Set clone URLs
+$sourceRepo = "https://azuredevopsSourceOrg/<teamProjectName>/_git/sourceCloneURL" #source repo clone UR
+$destinationRepo= "https://azuredevopsTargetOrg/<teamProjectName>/_git/targetCloneURL" #target repo clone URL
 
+# Indexing repo substring to retrieve repo name
 $repoName = $sourceRepo.Substring($sourceRepo.LastIndexOf("/")+1)
 $scriptPath = Get-Location
 $gitRepoPath = Join-Path -Path $scriptPath -ChildPath $repoName
 
+# Creating empty folder to clone repo
 Write-Host "Starting Migration Process for $repoName"
 Write-Host "Creating temporary $repoName migration fodler"
 New-Item $gitRepoPath -ItemType "directory"
-
 Write-Host "Cloning Source Repo"
 git clone $sourceRepo
 
+# Calling git filter-repo module to clean up commit message. Replacing "#" with previous org URL to de link work item
 Write-Host "Starting Repository History Cleanup"
 Set-Location $gitRepoPath
 git filter-repo --commit-callback '
 msg = commit.message.decode(\"utf-8\")
-newmsg = msg.replace(\"#\", \"https://azuredevopsSource/<teamProjectName>/_workitems/edit/\")
+newmsg = msg.replace(\"#\", \"https://azuredevopsSourceOrg/<teamProjectName>/_workitems/edit/\")
 commit.message = newmsg.encode(\"utf-8\")
 ' --force
 
+# Pushing cloned repo with rewritten history to new repo in new org
 Write-Host "Pushing repo with modified history to $destinationRepo"
 git push --mirror $destinationRepo
 
+# Cleanup
 Write-Host "removing temporary migration folder"
 Set-Location $scriptPath
 Remove-Item $gitRepoPath -force -recurse
