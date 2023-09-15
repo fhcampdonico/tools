@@ -1,8 +1,8 @@
 <#######################################
 
 This script can be used to enable and disable F5 pool members from a local PS session. 
-Useful when running it from a CI/CD pipeline when it's a deployment requires to disable a node,
-deploy code, then re-enable such node to ensure no traffic is being routed to it during deployment.
+Useful when running it from a CI/CD pipeline when it's a deployment requires to disable a pool member,
+deploy code, then re-enable the pool member to ensure no traffic is being routed to it during deployment.
 
 Example: 
 
@@ -12,7 +12,7 @@ Pre-reqs:
 
 1. This task required the F5-LTM module to be installed on the server. The module can be found under:
   https://devcentral.f5.com/s/articles/powershell-module-for-the-f5-ltm-rest-api
-2. Script uses account with access to disable/enable nodes in F5.
+2. Script uses account with access to disable/enable pool member in F5.
 
 #######################################>
 
@@ -25,16 +25,18 @@ param(
 	$operation
 )
 
+# Importing module
 Import-Module F5-LTM
 
+# Creating secure credential and opening session to F5 controller
 Write-Host "Creating Remote PowerShell Session to F5"
 Write-Host "Local Traffic Manager (LTM) IP: $myLTM_IP"
 Write-Host "Local Traffic Manager Service Account: $userName"
-
 $pass = ConvertTo-SecureString -AsPlainText $password -Force
 $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $userName, $pass
 $F5Session = New-F5Session -LTMName $MyLTM_IP -LTMCredentials $cred -PassThrough
 
+# Perform desired operation to enable or disable F5 pool member
 if($operation -eq "Disable"){
     Write-Host "Disabling F5 Pool Member $poolMember in $poolName"
     Disable-PoolMember -PoolName $poolName -Name $poolMember -F5Session $F5Session -Force
@@ -55,5 +57,3 @@ else{
     Write-Host "Invalid Operation. Exiting"
     Exit -1
 }
-
-
