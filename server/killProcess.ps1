@@ -5,7 +5,7 @@ Useful when a process is stuck and/or we need to ensure a processes is stopped
 
 Example: 
 
-.\KillProcessOnPremServers.ps1 -serverName $serverName -serverPort $serverPort -processName $processName -userName $userName -password $password 
+.\killProcess.ps1 -serverName $serverName -serverPort $serverPort -processName $processName -userName $userName -password $password 
 
 ######################################>
 
