@@ -4,7 +4,7 @@ Simple script to stop or restart a process through a valid PS Session.
 
 Example: 
 
-.\StartStopServicesOnPremServers.ps1 -serverName $serverName -serverPort $serverPort -serviceName $serviceName -operation $operation -userName $userName -password $password 
+.\startStopProcess.ps1 -serverName $serverName -serverPort $serverPort -serviceName $serviceName -operation $operation -userName $userName -password $password 
 
 ######################################>
 
