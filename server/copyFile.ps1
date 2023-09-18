@@ -4,7 +4,7 @@ Simple script to copy a single file from one server to another by creating a val
 
 Example: 
 
-.\CopyFilesToOnPremServers.ps1 -sourcePath $sourcePath -destinationPath $destinationPath -serverName $serverName -serverPort $serverPort -userName $userName -password $password
+.\copyFile.ps1 -sourcePath $sourcePath -destinationPath $destinationPath -serverName $serverName -serverPort $serverPort -userName $userName -password $password
 
 ######################################>
 
