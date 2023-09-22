@@ -4,6 +4,8 @@ This script can be used to enable and disable F5 pool members from a local PS se
 Useful when running it from a CI/CD pipeline when it's a deployment requires to disable a pool member,
 deploy code, then re-enable the pool member to ensure no traffic is being routed to it during deployment.
 
+Good to pair with a restart site/iis script.
+
 Example: 
 
 .\RotateF5.ps1 -myLTM_IP $myLTM_IP -poolMember $poolMember -poolName $poolName -userName $userName -password $password -operation $operation
