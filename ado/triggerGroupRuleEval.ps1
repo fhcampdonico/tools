@@ -51,5 +51,5 @@ function TriggerGroupRuleReEvaluation{
 $auth = New-Credentials -User $devOpsUserName -Pass $devOpsPAT
 $Header = @{Authorization="Basic $auth"}
 
-Write-Output "Triggering Grou Rule Evalution on $orgName"
+Write-Output "Triggering Group Rule Re-Evaluation on $orgName"
 TriggerGroupRuleReEvaluation -orgName $orgName
